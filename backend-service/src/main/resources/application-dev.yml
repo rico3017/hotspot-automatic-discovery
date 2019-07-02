@@ -1,0 +1,30 @@
+server:
+  port: 8004
+  tomcat:
+    max-http-post-size: 20000000
+  jetty:
+    max-http-post-size: 20000000
+spring:
+  profiles:
+    include: db
+    active: dev
+  application:
+    name: backend-service
+  datasource:
+    # 切记配置编码
+    url: jdbc:mysql://localhost:3309/weibo2?useUnicode=true&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: mysql-docker
+  kafka:
+    producer:
+      batch-size: 200
+      bootstrap-servers: localhost:9092
+      retries: 3
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+  jpa:
+    show-sql: false
+    open-in-view: true
+logging:
+  config: classpath:log4j2.xml

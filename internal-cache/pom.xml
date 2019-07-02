@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+
+    <parent>
+        <groupId>com.sev7e0.data</groupId>
+        <artifactId>hotspot-parent</artifactId>
+        <version>1.0</version>
+    </parent>
+
+    <artifactId>internal-cache</artifactId>
+    <version>1.0</version>
+
+    <packaging>jar</packaging>
+
+    <name>internal-cache</name>
+
+    <properties>
+    </properties>
+
+    <dependencies>
+
+    </dependencies>
+
+    <build>
+    </build>
+
+</project>
