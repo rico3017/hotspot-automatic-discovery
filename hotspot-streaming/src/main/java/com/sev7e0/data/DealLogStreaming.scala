@@ -10,27 +10,47 @@ import org.apache.spark.sql.streaming.{OutputMode, Trigger}
   */
 object DealLogStreaming {
   val master = "local"
-  val serverList = "localhost:9092"
+  var serverList = "localhost:9092"
   val kafka = "kafka"
   val group = "group-1"
 
 
+  /**
+    * 入口主函数
+    *
+    * @param args The order of parameters is serverList windowSize slideSize (windowSize slideSize can use default)
+    */
 
   def main(args: Array[String]): Unit = {
+    var windowSize = 600
+    var slideSize = 300
 
-    val windowSize = 60
-    val slideSize = 60
-    if (slideSize > windowSize) {
-      System.err.println("<滑动间隔> 必须要小于或等于 <窗口间隔>")
+    /**
+      * check args
+      */
+    args match {
+      case args if args.length > 3 || args.length < 1 => {
+        System.err.println("main method parameters error!")
+      }
+      case args if args.length == 3 => {
+        windowSize = args(1).toInt
+        slideSize = args(2).toInt
+        if (slideSize > windowSize) {
+          System.err.println("Sliding interval must be less than or equal to window interval.")
+        }
+        serverList = args(0)
+      }
+      case args if args.length < 3 => {
+        serverList = args(0)
+      }
     }
 
     val windowDuration = s"$windowSize seconds"
     val slideDuration = s"$slideSize seconds"
 
-
     val spark = SparkSession.builder()
       .appName(DealLogStreaming.getClass.getName)
-      .master("local")
+      .master(master)
       .getOrCreate()
 
     val logDF = spark.readStream
@@ -43,27 +63,27 @@ object DealLogStreaming {
 
     import spark.implicits._
 
-    val lines = logDF.selectExpr("CAST(value AS STRING)",
-      "CAST(topic as STRING)",
-      "CAST(partition as INTEGER)")
+    val lines = logDF.selectExpr("CAST(value AS STRING)", "CAST(topic as STRING)", "CAST(partition as INTEGER)")
       .as[(String, String, Integer)]
 
 
+    //    import org.apache.spark.sql.functions.to_timestamp
     val df = lines.map(line => {
       val strings = line._1.split("=")
       Topic(strings(0), strings(1), strings(2), strings(3))
-    })
-      .toDF()
+    }).toDF()
+
+    //    val dt = to_timestamp($"timestamp", "MM/dd/yyyy HH:mm:ss")
 
 
-    val ds = df.select($"timestamp", $"className", $"methodName", $"topicValue").as[Topic]
+    val ds = df.select($"timestamp", $"className", $"methodName", $"topicValue")
 
-    val query = ds.groupBy(window($"timestamp", windowDuration, slideDuration),$"topicValue")
+    val query = ds.groupBy(window($"timestamp", windowDuration, slideDuration), $"topicValue")
       .count()
-      .orderBy("window","count")
+      .orderBy("count")
       .writeStream
       .outputMode(OutputMode.Complete())
-      .trigger(Trigger.Continuous("1 seconds"))
+      .trigger(Trigger.ProcessingTime("1 seconds"))
       .format("console")
       .start()
 
