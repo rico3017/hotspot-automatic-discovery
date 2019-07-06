@@ -9,5 +9,4 @@ public class InternalCacheApplication {
     public static void main(String[] args) {
         SpringApplication.run(InternalCacheApplication.class, args);
     }
-
 }
