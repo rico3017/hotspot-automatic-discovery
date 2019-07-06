@@ -9,108 +9,22 @@
     <version>1.0</version>
     <packaging>pom</packaging>
     <modules>
-        <module>internal-cache</module>
         <module>backend-service</module>
         <module>hotspot-streaming</module>
+        <module>internal-cache</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
-        <scala.version>2.12.8</scala.version>
-        <kafka.version>2.2.0</kafka.version>
-        <spark.version>2.4.0</spark.version>
-        <hadoop.version>2.7.5</hadoop.version>
-        <hbase.version>1.2.6</hbase.version>
-        <slf4j-api.version>1.7.25</slf4j-api.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <slf4j.version>1.7.25</slf4j.version>
-        <delta.version>0.1.0</delta.version>
-        <yml.version>1.23</yml.version>
         <lombok.version>1.16.22</lombok.version>
         <guava.version>28.0-jre</guava.version>
     </properties>
 
     <dependencies>
-        <!--kafka依赖-->
-        <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka_2.12</artifactId>
-            <version>${kafka.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!--Spark Streaming Integration Kafka-->
-        <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-streaming-kafka-0-10_2.12</artifactId>
-            <version>${spark.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spark-tags_2.12</artifactId>
-                    <groupId>org.apache.spark</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!--Structured Streaming Integration Kafka-->
-        <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-sql-kafka-0-10_2.12</artifactId>
-            <version>${spark.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spark-tags_2.12</artifactId>
-                    <groupId>org.apache.spark</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!--spark依赖-->
-        <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-core_2.12</artifactId>
-            <version>${spark.version}</version>
-        </dependency>
 
-        <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-streaming_2.12</artifactId>
-            <version>${spark.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-sql_2.12</artifactId>
-            <version>${spark.version}</version>
-        </dependency>
-<!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.databricks/spark-avro &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.databricks</groupId>-->
-<!--            <artifactId>spark-avro_2.12</artifactId>-->
-<!--            <version>4.0.0</version>-->
-<!--        </dependency>-->
-
-        <dependency>
-            <groupId>org.scala-lang</groupId>
-            <artifactId>scala-library</artifactId>
-            <version>${scala.version}</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.scala-lang.modules/scala-xml -->
-        <dependency>
-            <groupId>org.scala-lang.modules</groupId>
-            <artifactId>scala-xml_2.12</artifactId>
-            <version>1.0.6</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>io.delta</groupId>
-            <artifactId>delta-core_2.12</artifactId>
-            <version>${delta.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
@@ -134,8 +48,6 @@
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
         </dependency>
-
-
 
     </dependencies>
     <build>

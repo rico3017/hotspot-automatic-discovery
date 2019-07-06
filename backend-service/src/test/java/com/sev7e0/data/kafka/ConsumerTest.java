@@ -17,7 +17,7 @@ import java.util.Properties;
 @Slf4j
 public class ConsumerTest {
     public static final String brokerList = "localhost:9092";
-    public static final String topic = "hotspot-test";
+    public static final String topic = "Topic";
     //新的group，相较于ConsumerQuickStart group-1分组，现在kafka是发布订阅模型
     public static final String groupId = "group-2";
     public static final String out = "topic={} - partition={} - offset={} - value={}";

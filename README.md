@@ -1,1 +1,0 @@
-# hotspot-automatic-discovery

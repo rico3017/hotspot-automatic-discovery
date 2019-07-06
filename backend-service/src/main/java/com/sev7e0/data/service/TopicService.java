@@ -1,5 +1,6 @@
 package com.sev7e0.data.service;
 
+import com.sev7e0.data.HotSpot;
 import com.sev7e0.data.dao.TopicRepository;
 import com.sev7e0.data.model.Topic;
 import lombok.NonNull;
@@ -19,8 +20,8 @@ public class TopicService {
     @Autowired
     TopicRepository repository;
 
+    @HotSpot(name = "Topic")
     public List<Topic> findAllByTitle(@NonNull String title) {
-        log.info("findAllByTitle={}",title);
         List<Topic> allByTitle = repository.findAllByTitle(title);
         return allByTitle;
     }

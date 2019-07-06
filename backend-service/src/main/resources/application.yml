@@ -1,3 +1,4 @@
+
 server:
   port: 8004
   tomcat:
@@ -9,4 +10,11 @@ spring:
     active: dev
   application:
     name: backen
-
+  kafka:
+    producer:
+      batch-size: 200
+      bootstrap-servers: localhost:9092
+      retries: 3
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+debug: true

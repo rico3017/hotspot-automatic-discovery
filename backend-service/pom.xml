@@ -108,6 +108,12 @@
             </exclusions>
         </dependency>
 
+        <dependency>
+            <groupId>com.sev7e0.data</groupId>
+            <artifactId>internal-cache</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
