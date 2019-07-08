@@ -49,7 +49,7 @@ public class ConsumerTest {
             try {
                 while (true) {
                     ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(1000));
-                    records.forEach(record -> System.out.println(record.value()));
+                    records.forEach(record -> System.out.println(record.value()+"--"+record.timestamp()));
                     //异步提交offset
                     consumer.commitAsync();
                 }

@@ -25,4 +25,10 @@ public class TopicService {
         List<Topic> allByTitle = repository.findAllByTitle(title);
         return allByTitle;
     }
+
+    @HotSpot(name = "Topic")
+    public List<Topic> findAllByTitle(@NonNull List<String> titles) {
+        List<Topic> allByTitle = repository.findAllByTitle(titles);
+        return allByTitle;
+    }
 }

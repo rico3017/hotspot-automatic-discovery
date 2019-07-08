@@ -6,7 +6,7 @@ server:
     max-http-post-size: 20000000
 spring:
   profiles:
-    include: db
+    include:
     active: dev
   application:
     name: backend-service
@@ -28,3 +28,4 @@ spring:
     open-in-view: true
 logging:
   config: classpath:log4j2.xml
+debug: false

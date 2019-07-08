@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -24,5 +25,10 @@ public class TopicController {
     @RequestMapping(value = "/search", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public List<Topic> search(@RequestParam(value = "title") String title) {
         return topicService.findAllByTitle(title);
+    }
+
+    @RequestMapping(value = "/findAllByTitle", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public List<Topic> findAllByTitle(@RequestParam(value = "title") String title, @RequestParam(value = "titles") String titles) {
+        return topicService.findAllByTitle(Arrays.asList(title, titles));
     }
 }

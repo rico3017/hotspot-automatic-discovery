@@ -11,4 +11,6 @@ public interface TopicRepository extends JpaRepository<Topic, String> {
 
     List<Topic> findAllByTitle(String title);
 
+    List<Topic> findAllByTitle(List<String> title);
+
 }
