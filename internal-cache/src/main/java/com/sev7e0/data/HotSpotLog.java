@@ -1,34 +1,28 @@
 package com.sev7e0.data;
 
 
-import java.io.Serializable;
+import java.util.List;
 
 /**
  * 日志实体
  */
-public class HotSpotLog implements Serializable {
+
+public class HotSpotLog {
 
     public static class Builder {
 
-        private String dataTime;
-
-        private String method;
+        private String methodName;
 
         private String className;
 
-        private String value;
+        private List<Object> value;
 
         public Builder() {
 
         }
 
-        public Builder dataTime(String dataTime) {
-            this.dataTime = dataTime;
-            return this;
-        }
-
-        public Builder method(String method) {
-            this.method = method;
+        public Builder methodName(String methodName) {
+            this.methodName = methodName;
             return this;
         }
 
@@ -37,7 +31,7 @@ public class HotSpotLog implements Serializable {
             return this;
         }
 
-        public Builder value(String value) {
+        public Builder value(List<Object> value) {
             this.value = value;
             return this;
         }
@@ -48,27 +42,27 @@ public class HotSpotLog implements Serializable {
     }
 
     public HotSpotLog(Builder builder) {
-        this.dataTime = builder.dataTime;
-        this.method = builder.method;
+        this.methodName = builder.methodName;
         this.className = builder.className;
         this.value = builder.value;
     }
 
-    private String dataTime;
 
-    private String method;
+    private String methodName;
 
     private String className;
 
-    private String value;
+    private List<Object> value;
 
-    @Override
-    public String toString() {
-        return "HotSpotLog{" +
-                "dataTime='" + dataTime + '\'' +
-                ", method='" + method + '\'' +
-                ", className='" + className + '\'' +
-                ", value='" + value + '\'' +
-                '}';
+    public String getMethodName() {
+        return methodName;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public List<Object> getValue() {
+        return value;
     }
 }
