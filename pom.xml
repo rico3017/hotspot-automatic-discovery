@@ -21,6 +21,7 @@
         <slf4j.version>1.7.25</slf4j.version>
         <lombok.version>1.16.22</lombok.version>
         <guava.version>28.0-jre</guava.version>
+        <curator.version>4.0.0</curator.version>
     </properties>
 
     <dependencies>
@@ -47,6 +48,18 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
+        </dependency>
+        <!--zk-->
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+            <version>${curator.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
     </dependencies>
