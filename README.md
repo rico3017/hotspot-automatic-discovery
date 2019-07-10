@@ -13,7 +13,7 @@
 |  Kafka |  ZooKeeper |   |
 |  Mysql |   |   |
 
-![流程图](http://files.sev7e0.site/images/oneblog/20190525163332288.png "流程图")
+![流程图](https://github.com/sev7e0/hotspot-automatic-discovery/blob/spring/%E6%B5%81%E7%A8%8B%E5%9B%BE.png "流程图")
 
 
 ## 环境配置
