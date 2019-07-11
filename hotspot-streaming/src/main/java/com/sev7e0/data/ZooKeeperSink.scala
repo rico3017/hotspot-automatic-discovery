@@ -1,27 +1,30 @@
 package com.sev7e0.data
 
-import java.util.concurrent.CountDownLatch
+import java.util.StringJoiner
 
+import org.apache.curator.framework.{CuratorFramework, CuratorFrameworkFactory}
+import org.apache.curator.retry.ExponentialBackoffRetry
 import org.apache.spark.sql.{ForeachWriter, Row}
-import org.apache.zookeeper.ZooKeeper
+import org.apache.zookeeper.CreateMode
 import org.slf4j.LoggerFactory
 
 class ZooKeeperSink(url: String, timeout: Int, path: String) extends ForeachWriter[Row] {
 
   protected lazy val logger = LoggerFactory.getLogger(getClass.getName)
 
+  val PARENTNODE = "/rootNode/"
 
-  var zk: ZooKeeper = _
+  private var client: CuratorFramework = _
 
-  val countDownLatch: CountDownLatch = new CountDownLatch(1);
-
+  /**
+    * get client
+    *
+    * @return
+    */
   override def open(partitionId: Long, epochId: Long): Boolean = {
-
-    zk = new ZooKeeper(url, timeout, event => {
-      logger.info("链接状态更改----{}", event.getState())
-      countDownLatch.countDown()
-    })
-    countDownLatch.await()
+    val exponentialBackoffRetry = new ExponentialBackoffRetry(timeout, 3)
+    client = CuratorFrameworkFactory.newClient(url, exponentialBackoffRetry)
+    client.start()
     true
   }
 
@@ -31,11 +34,31 @@ class ZooKeeperSink(url: String, timeout: Int, path: String) extends ForeachWrit
     * @param value
     */
   override def process(value: Row): Unit = {
-    logger.info(value.toString())
-    //    zk.create(path, Array.apply(value.getByte(0)), OPEN_ACL_UNSAFE, EPHEMERAL)
+    val joiner = new StringJoiner("/", PARENTNODE, "")
+    joiner.add(String.valueOf(value.get(0)))
+    joiner.add(String.valueOf(value.get(1)))
+    logger.info("写入 zk 路径为：{}", joiner.toString)
+    client.create()
+      .withMode(CreateMode.EPHEMERAL)
+      .forPath(joiner.toString, String.valueOf(value.get(2)).getBytes)
   }
 
   override def close(errorOrNull: Throwable): Unit = {
-    zk.close()
+    client.close()
+  }
+
+
+}
+
+object ZooKeeperSink{
+  var a = new ZooKeeperSink("url", 4, "1")
+  def main(args: Array[String]): Unit = {
+    val value = ("a", "b", "d")
+    val joiner = new StringJoiner("/", a.PARENTNODE, "")
+    joiner.add(value._1)
+    joiner.add(value._2)
+    joiner.add(value._3)
+    println(joiner.toString)
+
   }
 }

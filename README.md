@@ -13,9 +13,22 @@
 |  Kafka |  ZooKeeper |   |
 |  Mysql |   |   |
 
-![流程图](https://github.com/sev7e0/hotspot-automatic-discovery/blob/spring/%E6%B5%81%E7%A8%8B%E5%9B%BE.png "流程图")
+![流程图](https://github.com/sev7e0/hotspot-automatic-discovery/blob/spring/flow%20chart.png "流程图")
 
 
-## 环境配置
+## 环境
 
-## 简单总结
+```shell
+git clone https://github.com/sev7e0/hotspot-automatic-discovery.git
+
+mvn install -DskipTests
+```
+0. 导入`weibo.sql`。
+
+1. `backend-service`中配置 Kafka 相关配置，ZooKeeper 相关配置，Mysql 相关配置
+启动`InternalCacheApplication`。
+
+2. `hotspot-streaming`中配置 Kafka 相关配置，ZooKeeper 相关配置，启动
+`DealLogByStructuredStreaming$`。
+
+3. 通过`backend-service`中`TopicController`路径进行访问（Postman、或其他 Http 客户端工具）。
