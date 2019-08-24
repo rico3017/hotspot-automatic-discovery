@@ -36,11 +36,11 @@ class ZooKeeperSink(url: String, timeout: Int, path: String) extends ForeachWrit
   override def process(value: Row): Unit = {
     val joiner = new StringJoiner("/", PARENTNODE, "")
     joiner.add(String.valueOf(value.get(0)))
-    joiner.add(String.valueOf(value.get(1)))
-    logger.info("写入 zk 路径为：{}", joiner.toString)
+    logger.info("zk path：{}", joiner.toString)
+    logger.info("value：{}", value.toString)
     client.create()
-      .withMode(CreateMode.EPHEMERAL)
-      .forPath(joiner.toString, String.valueOf(value.get(2)).getBytes)
+      .withMode(CreateMode.EPHEMERAL_SEQUENTIAL)
+      .forPath(joiner.toString, value.toString().getBytes)
   }
 
   override def close(errorOrNull: Throwable): Unit = {

@@ -5,6 +5,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,6 +72,11 @@ public class HotSpotHandler {
         if (logger.isDebugEnabled()) {
             logger.debug("hotspot-automatic-discovery向 Kafka 发送日志数据 finish!");
         }
+        return joinPoint.proceed();
+    }
+
+    @Before("com.sev7e0.data.HotSpotHandler.hotSpotLogging()")
+    public Object before(ProceedingJoinPoint joinPoint) throws Throwable {
         return joinPoint.proceed();
     }
 

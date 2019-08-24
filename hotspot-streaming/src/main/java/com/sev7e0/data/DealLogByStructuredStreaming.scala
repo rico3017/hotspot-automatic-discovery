@@ -62,22 +62,18 @@ object DealLogByStructuredStreaming {
       .select(from_json($"json", schema = schema).as("hot"), $"timestamp".as("timestamp"))
       .toDF()
 
-    //    lines.printSchema()
-
-
-    //    val ds = lines.select($"timestamp", $"hot.className", $"hot.methodName", $"hot.value").as[Topic]
-
     val query = lines.withWatermark("timestamp", "1 minutes")
       .groupBy(window($"timestamp", windowDuration, slideDuration), $"hot.className", $"hot.methodName", $"hot.value")
       .count()
       .orderBy("count")
-      .select($"className", $"methodName", $"value", $"count")
+      .select($"timestamp",$"className", $"methodName", $"value", $"count")
       .where($"count" > 50)
       .writeStream
       // 不截断日志
       .option("truncate", "false")
       .outputMode(OutputMode.Complete())
       .trigger(Trigger.ProcessingTime("5 seconds"))
+      .foreach(ZooKeeperSink )
       .format("console")
       .start()
 
